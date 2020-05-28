@@ -11,7 +11,7 @@ export default function Text({
     textData: {
         title: string
         date: string
-        cocntentHtml: string
+        contentHtml: string
     }
 }) {
     return (
@@ -24,7 +24,7 @@ export default function Text({
                 <div className={utilStyles.lightText}>
                     <Date dateString={textData.date} />
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: textData.cocntentHtml }} />
+                <div dangerouslySetInnerHTML={{ __html: textData.contentHtml }} />
             </article>
         </Layout>
     )
@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const textData = await getTextData(params.id as string)
+    const textData = await getTextData(params.id[2] as string)
     return {
         props: {
             textData

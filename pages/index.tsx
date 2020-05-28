@@ -24,7 +24,7 @@ export default function Home({
                 <ul className="textList">
                     {allTextsData.map(({ id, date, title }) => (
                         <li className="textItem" key={id}>
-                            <Link href="/[id]" as={`/${id}`}>
+                            <Link href="/[...id]" as={`/${date.substring(0,4)}/${date.substring(5,7)}/${id}`}>
                                 <a>{title}</a>
                             </Link>
                             <br />

@@ -9,7 +9,8 @@ const textsDir = path.join(process.cwd(), 'texts')
 export function getSortedTextsData() {
     const filenames = fs.readdirSync(textsDir)
     const allTextsData = filenames.map(filename => {
-        const id = filename.replace(/\.txt/, '')
+        // const id = filename.replace(/\.txt/, '')
+        const id = filename
         const fullpath = path.join(textsDir, filename)
         const contents = fs.readFileSync(fullpath, 'utf8')
         const matterResult = matter(contents)
@@ -30,16 +31,27 @@ export function getSortedTextsData() {
 export function getAllTextIds() {
     const filenames = fs.readdirSync(textsDir)
     return filenames.map(filename => {
+        // return {
+        //     params: {
+        //         id: filename.replace(/\.txt$/, '')
+        //     }
+        // }
+        const id = filename
+        const fullpath = path.join(textsDir, filename)
+        const contents = fs.readFileSync(fullpath, 'utf8')
+        const matterResult = matter(contents)
+        const year = matterResult.data.date.substring(0, 4)
+        const month = matterResult.data.date.substring(5, 7)
         return {
             params: {
-                id: filename.replace(/\.txt$/, '')
+                id: [year, month, filename]
             }
         }
     })
 }
 
 export async function getTextData(id: string) {
-    const fullpath = path.join(textsDir, `${id}.txt`)
+    const fullpath = path.join(textsDir, `${id}`)
     const contents = fs.readFileSync(fullpath, 'utf8')
     const matterResult = matter(contents)
     const processedContents = await remark()
