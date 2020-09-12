@@ -6,8 +6,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint src --ext .ts,.tsx --ignore-path ./.gitignore",
+    "lint:fix": "npm run lint --fix . --ignore-path ./.gitignore",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.js"
   },
   "dependencies": {
