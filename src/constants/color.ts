@@ -10,6 +10,7 @@ export const LIGHT_ACCENT_BACKGROUND_COLOR = '#FFF2D5';
 export const LIGHT_LOADER_COLOR = '#E0E4E9';
 export const LIGHT_LOADER_HIGHLIGHT_COLOR = '#EFF2F4';
 
+// #24292e
 export const DARK_FOREGROUND_COLOR = '#eee7e0';
 export const DARK_EMPHASIZED_FOREGROUND_COLOR = '#ffffff';
 export const DARK_SECONDARY_FOREGROUND_COLOR = '#8395a7';

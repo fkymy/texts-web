@@ -50,3 +50,9 @@
   .lightText {
     color: #666;
   } */
+
+.text {
+  margin-left: 12px;
+  margin-right: 12px;
+  padding: 42px;
+}

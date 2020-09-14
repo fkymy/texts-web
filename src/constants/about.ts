@@ -1,4 +1,4 @@
-import SocialMediaLink from '../entities/SocialMediaLink';
+import SocialMediaLink from '../types/SocialMediaLink';
 
 export const MY_NAME = 'May Fukuya';
 
