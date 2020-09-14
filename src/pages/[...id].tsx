@@ -1,48 +1,49 @@
-import Layout from '../components/layout';
-import { getAllTextIds, getTextData } from '../lib/texts';
-import Head from 'next/head';
-import Date from '../components/date';
-import utilStyles from '../styles/utils.module.css';
+import * as React from 'react';
+import TextPage from '../components/TextPage';
+import { getAllTextPaths, getTextByFilename } from '../lib/api';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import markdownToHtml from '../lib/textToHtml';
+import TextType from '../types/Text';
 
-export default function Text({
-  textData,
-}: {
-  textData: {
-    title: string;
-    date: string;
-    contentHtml: string;
-  };
-}) {
-  return (
-    <Layout>
-      <Head>
-        <title>{textData.title}</title>
-      </Head>
-      <article>
-        <h1>{textData.title}</h1>
-        <div className={utilStyles.lightText}>
-          <Date dateString={textData.date} />
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: textData.contentHtml }} />
-      </article>
-    </Layout>
-  );
+type Props = {
+  text: TextType;
+};
+
+export default function Text({ text }: Props) {
+  return <TextPage text={text} />;
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getAllTextIds();
+export async function getStaticPaths() {
+  const paths = getAllTextPaths();
+
   return {
     paths,
     fallback: false,
   };
-};
+}
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const textData = await getTextData(params.id[2] as string);
-  return {
-    props: {
-      textData,
-    },
+type Params = {
+  params: {
+    id: [string, string, string];
   };
 };
+
+export async function getStaticProps({ params }: Params) {
+  const text = getTextByFilename(params.id[2], [
+    'filename',
+    'title',
+    'date',
+    'content',
+  ]);
+
+  const content = await markdownToHtml(text.content || '');
+
+  return {
+    props: {
+      text: {
+        ...text,
+        content,
+      },
+    },
+  };
+}

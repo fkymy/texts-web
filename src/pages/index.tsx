@@ -1,52 +1,23 @@
-import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
-import utilStyles from '../styles/utils.module.css';
-import { getSortedTextsData } from '../lib/texts';
-import Link from 'next/link';
-import Date from '../components/date';
+import * as React from 'react';
+import IndexPage from '../components/IndexPage';
 import { GetStaticProps } from 'next';
+import { getAllTexts } from '../lib/api';
+import Text from '../types/Text';
 
-export default function Home({
-  allTextsData,
-}: {
-  allTextsData: {
-    date: string;
-    title: string;
-    id: string;
-  }[];
-}) {
-  return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <section className="texts">
-        <ul className="textList">
-          {allTextsData.map(({ id, date, title }) => (
-            <li className="textItem" key={id}>
-              <Link
-                href="/[...id]"
-                as={`/${date.substring(0, 4)}/${date.substring(5, 7)}/${id}`}
-              >
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className="date">
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </Layout>
-  );
-}
+type Props = {
+  allTexts: Text[];
+};
+
+const Index = ({ allTexts }: Props) => {
+  return <IndexPage allTexts={allTexts} />;
+};
+
+export default Index;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allTextsData = getSortedTextsData();
+  const allTexts = getAllTexts(['filename', 'title', 'date']);
+
   return {
-    props: {
-      allTextsData,
-    },
+    props: { allTexts },
   };
 };
